@@ -1,4 +1,4 @@
-# lubna_calculator
+# Lubna Calculator
 
 A new Flutter project.
 
