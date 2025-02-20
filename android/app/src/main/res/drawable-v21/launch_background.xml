@@ -1,0 +1,15 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- First item can be transparent shape -->
+    <item>
+        <shape>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+
+    <!-- Second item with light pink background color -->
+    <item>
+        <shape>
+            <solid android:color="#FFB3DE" /> <!-- Light pink background -->
+        </shape>
+    </item>
+</layer-list>
