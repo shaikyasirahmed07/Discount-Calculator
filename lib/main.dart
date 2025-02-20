@@ -8,15 +8,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lubna Selections ',
+      title: 'Lubna Selections',
       theme: ThemeData(
-        brightness: Brightness.dark, // Dark theme for the whole app
+        brightness: Brightness.dark,
         primaryColor: Colors.green,
         fontFamily: 'Roboto',
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.greenAccent, // Bright neon color for buttons
-            foregroundColor: Colors.black, // Button text color to black
+            backgroundColor: Colors.greenAccent,
+            foregroundColor: Colors.black,
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
             textStyle: TextStyle(
               fontSize: 18,
@@ -30,13 +30,13 @@ class MyApp extends StatelessWidget {
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: Colors.grey[900], // Dark fill for text fields
+          fillColor: Colors.grey[900],
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
           ),
           contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-          hintStyle: TextStyle(color: Colors.white70), // Lighter text for hints
+          hintStyle: TextStyle(color: Colors.white70),
         ),
       ),
       home: CalculatorPage(),
@@ -50,7 +50,8 @@ class CalculatorPage extends StatefulWidget {
   _CalculatorPageState createState() => _CalculatorPageState();
 }
 
-class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProviderStateMixin {
+class _CalculatorPageState extends State<CalculatorPage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController yController = TextEditingController();
   final TextEditingController aController = TextEditingController();
@@ -76,6 +77,7 @@ class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProvid
     super.dispose();
   }
 
+  // Calculate Buying Price using Selling Price (y) and Profit Percentage (a)
   void calculateX() {
     setState(() {
       errorMessageX = '';
@@ -99,6 +101,7 @@ class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProvid
     });
   }
 
+  // Calculate Discount Percentage using Selling Price (y) and Buying Price (x)
   void calculateZ() {
     setState(() {
       errorMessageZ = '';
@@ -122,6 +125,7 @@ class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProvid
     });
   }
 
+  // Calculate Selling Price using Buying Price (basePrice) and Profit Percentage (markupPercentage)
   void calculatePrice() {
     setState(() {
       double? basePrice = double.tryParse(basePriceController.text);
@@ -137,12 +141,28 @@ class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProvid
     });
   }
 
+  // Clear all fields and results for both tabs
+  void clearAllFields() {
+    yController.clear();
+    aController.clear();
+    xController.clear();
+    basePriceController.clear();
+    markupPercentageController.clear();
+    setState(() {
+      resultX = '';
+      resultZ = '';
+      resultPrice = '';
+      errorMessageX = '';
+      errorMessageZ = '';
+    });
+  }
+
   Widget _buildInputCard(String title, List<Widget> children) {
     return Card(
       elevation: 4,
       margin: EdgeInsets.symmetric(vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: Colors.grey[850], // Dark card background
+      color: Colors.grey[850],
       child: Padding(
         padding: EdgeInsets.all(20),
         child: Column(
@@ -150,7 +170,10 @@ class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProvid
           children: [
             Text(
               title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
             SizedBox(height: 16),
             ...children,
@@ -167,7 +190,7 @@ class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProvid
         text,
         style: TextStyle(
           fontSize: 16,
-          color: isError ? Colors.red[400] : Colors.green[300], // Error text is red, success is green
+          color: isError ? Colors.red[400] : Colors.green[300],
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -179,6 +202,13 @@ class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProvid
     return Scaffold(
       appBar: AppBar(
         title: Text('Lubna Selections'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.recycling, color: Colors.limeAccent),
+            tooltip: 'Clear All Fields',
+            onPressed: clearAllFields,
+          ),
+        ],
         bottom: TabBar(
           controller: _tabController,
           tabs: [
@@ -187,7 +217,7 @@ class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProvid
           ],
         ),
       ),
-      backgroundColor: Colors.grey[900], // Dark background for entire page
+      backgroundColor: Colors.grey[900],
       body: TabBarView(
         controller: _tabController,
         children: [
@@ -202,7 +232,7 @@ class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProvid
                       controller: yController,
                       decoration: InputDecoration(
                         labelText: 'Selling Price',
-                        prefixText: '₹ ', // Add ₹ symbol on the left side
+                        prefixText: '₹ ',
                       ),
                       keyboardType: TextInputType.numberWithOptions(decimal: true),
                     ),
@@ -234,7 +264,7 @@ class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProvid
                       controller: xController,
                       decoration: InputDecoration(
                         labelText: 'Buying Price',
-                        prefixText: '₹ ', // Add ₹ symbol on the left side
+                        prefixText: '₹ ',
                       ),
                       keyboardType: TextInputType.numberWithOptions(decimal: true),
                     ),
@@ -262,7 +292,7 @@ class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProvid
                   controller: basePriceController,
                   decoration: InputDecoration(
                     labelText: 'Buying Price',
-                    prefixText: '₹ ', // Add ₹ symbol on the left side
+                    prefixText: '₹ ',
                   ),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                 ),
