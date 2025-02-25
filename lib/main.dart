@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,15 +19,10 @@ class MyApp extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.greenAccent,
             foregroundColor: Colors.black,
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-            textStyle: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            elevation: 8,
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+            textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            elevation: 6,
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
@@ -35,23 +32,24 @@ class MyApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide.none,
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-          hintStyle: TextStyle(color: Colors.white70),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          hintStyle: const TextStyle(color: Colors.white70),
         ),
       ),
-      home: CalculatorPage(),
+      home: const CalculatorPage(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class CalculatorPage extends StatefulWidget {
+  const CalculatorPage({super.key});
+
   @override
   _CalculatorPageState createState() => _CalculatorPageState();
 }
 
-class _CalculatorPageState extends State<CalculatorPage>
-    with SingleTickerProviderStateMixin {
+class _CalculatorPageState extends State<CalculatorPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController yController = TextEditingController();
   final TextEditingController aController = TextEditingController();
@@ -59,11 +57,7 @@ class _CalculatorPageState extends State<CalculatorPage>
   final TextEditingController basePriceController = TextEditingController();
   final TextEditingController markupPercentageController = TextEditingController();
 
-  String resultX = '';
-  String resultZ = '';
-  String resultPrice = '';
-  String errorMessageX = '';
-  String errorMessageZ = '';
+  String resultX = '', resultZ = '', resultPrice = '', errorMessageX = '', errorMessageZ = '';
 
   @override
   void initState() {
@@ -74,10 +68,14 @@ class _CalculatorPageState extends State<CalculatorPage>
   @override
   void dispose() {
     _tabController.dispose();
+    yController.dispose();
+    aController.dispose();
+    xController.dispose();
+    basePriceController.dispose();
+    markupPercentageController.dispose();
     super.dispose();
   }
 
-  // Calculate Buying Price using Selling Price (y) and Profit Percentage (a)
   void calculateX() {
     setState(() {
       errorMessageX = '';
@@ -89,7 +87,6 @@ class _CalculatorPageState extends State<CalculatorPage>
         resultX = '';
         return;
       }
-
       if (a == 0) {
         errorMessageX = 'Profit percentage cannot be zero';
         resultX = '';
@@ -101,7 +98,6 @@ class _CalculatorPageState extends State<CalculatorPage>
     });
   }
 
-  // Calculate Discount Percentage using Selling Price (y) and Buying Price (x)
   void calculateZ() {
     setState(() {
       errorMessageZ = '';
@@ -113,7 +109,6 @@ class _CalculatorPageState extends State<CalculatorPage>
         resultZ = '';
         return;
       }
-
       if (y == 0) {
         errorMessageZ = 'Selling price cannot be zero';
         resultZ = '';
@@ -125,7 +120,6 @@ class _CalculatorPageState extends State<CalculatorPage>
     });
   }
 
-  // Calculate Selling Price using Buying Price (basePrice) and Profit Percentage (markupPercentage)
   void calculatePrice() {
     setState(() {
       double? basePrice = double.tryParse(basePriceController.text);
@@ -141,7 +135,6 @@ class _CalculatorPageState extends State<CalculatorPage>
     });
   }
 
-  // Clear all fields and results for both tabs
   void clearAllFields() {
     yController.clear();
     aController.clear();
@@ -160,22 +153,16 @@ class _CalculatorPageState extends State<CalculatorPage>
   Widget _buildInputCard(String title, List<Widget> children) {
     return Card(
       elevation: 4,
-      margin: EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       color: Colors.grey[850],
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-            SizedBox(height: 16),
+            Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+            const SizedBox(height: 16),
             ...children,
           ],
         ),
@@ -185,14 +172,10 @@ class _CalculatorPageState extends State<CalculatorPage>
 
   Widget _buildResultText(String text, {bool isError = false}) {
     return Padding(
-      padding: EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.only(top: 12),
       child: Text(
         text,
-        style: TextStyle(
-          fontSize: 16,
-          color: isError ? Colors.red[400] : Colors.green[300],
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextStyle(fontSize: 16, color: isError ? Colors.red[400] : Colors.green[300], fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -201,20 +184,17 @@ class _CalculatorPageState extends State<CalculatorPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lubna Selections'),
+        title: const Text('Lubna Selections'),
         actions: [
           IconButton(
-            icon: Icon(Icons.recycling, color: Colors.limeAccent),
+            icon: const Icon(Icons.recycling, color: Colors.limeAccent),
             tooltip: 'Clear All Fields',
             onPressed: clearAllFields,
           ),
         ],
         bottom: TabBar(
           controller: _tabController,
-          tabs: [
-            Tab(text: 'Discount Calculator'),
-            Tab(text: 'Price Calculator'),
-          ],
+          tabs: const [Tab(text: 'Discount Calculator'), Tab(text: 'Price Calculator')],
         ),
       ),
       backgroundColor: Colors.grey[900],
@@ -222,103 +202,38 @@ class _CalculatorPageState extends State<CalculatorPage>
         controller: _tabController,
         children: [
           SingleChildScrollView(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                _buildInputCard(
-                  'Calculate Buying Price',
-                  [
-                    TextField(
-                      controller: yController,
-                      decoration: InputDecoration(
-                        labelText: 'Selling Price',
-                        prefixText: '₹ ',
-                      ),
-                      keyboardType: TextInputType.numberWithOptions(decimal: true),
-                    ),
-                    SizedBox(height: 16),
-                    TextField(
-                      controller: aController,
-                      decoration: InputDecoration(
-                        labelText: 'Profit Percentage',
-                        suffixText: '%',
-                      ),
-                      keyboardType: TextInputType.numberWithOptions(decimal: true),
-                    ),
-                    SizedBox(height: 20),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: calculateX,
-                        child: Text('Calculate Buying Price'),
-                      ),
-                    ),
-                    if (resultX.isNotEmpty) _buildResultText(resultX),
-                    if (errorMessageX.isNotEmpty)
-                      _buildResultText(errorMessageX, isError: true),
-                  ],
-                ),
-                _buildInputCard(
-                  'Calculate Discount Percentage',
-                  [
-                    TextField(
-                      controller: xController,
-                      decoration: InputDecoration(
-                        labelText: 'Buying Price',
-                        prefixText: '₹ ',
-                      ),
-                      keyboardType: TextInputType.numberWithOptions(decimal: true),
-                    ),
-                    SizedBox(height: 20),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: calculateZ,
-                        child: Text('Calculate Discount'),
-                      ),
-                    ),
-                    if (resultZ.isNotEmpty) _buildResultText(resultZ),
-                    if (errorMessageZ.isNotEmpty)
-                      _buildResultText(errorMessageZ, isError: true),
-                  ],
-                ),
+                _buildInputCard('Calculate Buying Price', [
+                  TextField(controller: yController, decoration: const InputDecoration(labelText: 'Selling Price', prefixText: '₹ '), keyboardType: TextInputType.numberWithOptions(decimal: true)),
+                  const SizedBox(height: 16),
+                  TextField(controller: aController, decoration: const InputDecoration(labelText: 'Profit Percentage', suffixText: '%'), keyboardType: TextInputType.numberWithOptions(decimal: true)),
+                  const SizedBox(height: 20),
+                  Center(child: ElevatedButton(onPressed: calculateX, child: const Text('Calculate Buying Price'))),
+                  if (resultX.isNotEmpty) _buildResultText(resultX),
+                  if (errorMessageX.isNotEmpty) _buildResultText(errorMessageX, isError: true),
+                ]),
+                _buildInputCard('Calculate Discount Percentage', [
+                  TextField(controller: xController, decoration: const InputDecoration(labelText: 'Buying Price', prefixText: '₹ '), keyboardType: TextInputType.numberWithOptions(decimal: true)),
+                  const SizedBox(height: 20),
+                  Center(child: ElevatedButton(onPressed: calculateZ, child: const Text('Calculate Discount'))),
+                  if (resultZ.isNotEmpty) _buildResultText(resultZ),
+                  if (errorMessageZ.isNotEmpty) _buildResultText(errorMessageZ, isError: true),
+                ]),
               ],
             ),
           ),
           SingleChildScrollView(
-            padding: EdgeInsets.all(16),
-            child: _buildInputCard(
-              'Calculate Selling Price',
-              [
-                TextField(
-                  controller: basePriceController,
-                  decoration: InputDecoration(
-                    labelText: 'Buying Price',
-                    prefixText: '₹ ',
-                  ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                ),
-                SizedBox(height: 16),
-                TextField(
-                  controller: markupPercentageController,
-                  decoration: InputDecoration(
-                    labelText: 'Profit Percentage',
-                    suffixText: '%',
-                  ),
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                ),
-                SizedBox(height: 20),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: calculatePrice,
-                    child: Text('Calculate Price'),
-                  ),
-                ),
-                if (resultPrice.isNotEmpty)
-                  _buildResultText(
-                    resultPrice,
-                    isError: resultPrice.startsWith('Please'),
-                  ),
-              ],
-            ),
+            padding: const EdgeInsets.all(16),
+            child: _buildInputCard('Calculate Selling Price', [
+              TextField(controller: basePriceController, decoration: const InputDecoration(labelText: 'Buying Price', prefixText: '₹ '), keyboardType: TextInputType.numberWithOptions(decimal: true)),
+              const SizedBox(height: 16),
+              TextField(controller: markupPercentageController, decoration: const InputDecoration(labelText: 'Profit Percentage', suffixText: '%'), keyboardType: TextInputType.numberWithOptions(decimal: true)),
+              const SizedBox(height: 20),
+              Center(child: ElevatedButton(onPressed: calculatePrice, child: const Text('Calculate Price'))),
+              if (resultPrice.isNotEmpty) _buildResultText(resultPrice, isError: resultPrice.startsWith('Please')),
+            ]),
           ),
         ],
       ),

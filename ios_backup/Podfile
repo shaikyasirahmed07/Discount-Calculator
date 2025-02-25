@@ -1,0 +1,17 @@
+platform :ios, '16.0'  # Adjust the iOS version as needed
+use_frameworks!  # Required for Swift projects
+
+target 'Runner' do
+  # Flutter dependencies
+  pod 'Flutter', :path => '.symlinks/flutter/ios'
+
+  # Add other dependencies here
+  pod 'Alamofire', '~> 5.6'
+end
+
+# Add this block if you have a test target
+target 'RunnerTests' do
+  # Add dependencies for the test target here
+  pod 'Quick', '~> 5.0'
+  pod 'Nimble', '~> 10.0'
+end
